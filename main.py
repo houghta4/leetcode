@@ -38,7 +38,8 @@ async def fetch_leetcode_data(query, variables=None):
         response = await client.post(LEETCODE_API_ENDPOINT, json=payload, headers=headers)
         return response.json()
 
-async def checkUserCompletion(username):
+async def check_daily_completion(username):
+    '''check if user has compelted the daily problem'''
     # get daily problem
     daily_challenge = await fetch_leetcode_data(DAILY_CODING_CHALLENGE_QUERY)
     problem_data = daily_challenge.get('data', {}).get('activeDailyCodingChallengeQuestion', {}).get('question', {})
@@ -68,7 +69,11 @@ async def checkUserCompletion(username):
     else:
         print(f'❌ **{username} has not completed today\'s challenge yet.** 👎')
 
+async def check_problem_completion(username, problem_id):
+    '''check if user has completed a specific problem by id'''
+    pass
+
 if __name__ == '__main__':
     username = 'contain15percentjuice'
-    asyncio.run(checkUserCompletion(username))
-    asyncio.run(checkUserCompletion('choughtaling5'))
+    asyncio.run(check_daily_completion(username))
+    asyncio.run(check_daily_completion('choughtaling5'))
