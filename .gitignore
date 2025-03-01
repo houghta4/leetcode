@@ -1,0 +1,51 @@
+# Python bytecode files
+*.pyc
+*.pyo
+__pycache__/
+
+# Virtual environment
+venv/
+.env/
+
+# .env file containing sensitive information (like API tokens, keys, etc.)
+.env
+
+# VS Code settings
+.vscode/
+
+# PyCharm settings
+.idea/
+
+# Logs
+*.log
+
+# Dependency directories
+node_modules/
+
+# Build directories
+build/
+dist/
+
+# Packaging
+*.egg
+*.egg-info/
+.eggs/
+
+# PyInstaller
+*.spec
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+
+# Test reports
+*.coverage
+*.coverage.*
+nosetests.xml
+coverage.xml
+*.hypothesis/
+
+# MyPy
+.mypy_cache/
+
+# Poetry
+poetry.lock
