@@ -49,3 +49,6 @@ coverage.xml
 
 # Poetry
 poetry.lock
+
+# Ignore all SQLite database files
+*.db

@@ -11,7 +11,8 @@ class MyHelpCommand(commands.DefaultHelpCommand):
                 for command in commands_list:
                     if command.hidden:
                         continue
-                    help_message += f'``!{command.name} {command.signature}`` - {command.help}\n'
+                    help_message += f'`!{command.name} {command.signature}`\n'
+                    help_message += f'> {command.help}\n\n'
         help_message += '\n**For specific command help, use `!help <command>`.**'
         #css not needed but could be cool eventually
         await send_with_mention(self.context, f'\n{help_message}\n')
