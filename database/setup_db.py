@@ -15,7 +15,6 @@ CREATE TABLE IF NOT EXISTS users (
     discord_id INTEGER UNIQUE,
     discord_username STRING DEFAULT "",
     leetcode_username STRING DEFAULT "",
-    notify BOOLEAN DEFAULT 1,
     score INTEGER DEFAULT 0         
 )
 ''')

@@ -23,7 +23,7 @@ class Database:
         return self.cursor
 
     def add_user(self, discord_id, discord_username: str = None, leetcode_username: str = None):
-        self.execute('INSERT OR IGNORE INTO users (discord_id, discord_username, leetcode_username, notify, score) VALUES (?, ?, ?, ?, ?)', (discord_id, discord_username, leetcode_username, True, 0))
+        self.execute('INSERT OR IGNORE INTO users (discord_id, discord_username, leetcode_username, score) VALUES (?, ?, ?, ?)', (discord_id, discord_username, leetcode_username, 0))
         self.commit()
     
     def get_user(self, discord_id):
@@ -37,15 +37,6 @@ class Database:
     
     def set_discord_username(self, discord_id, username):
         self.execute('UPDATE users SET discord_username = ? WHERE discord_id = ?', (username, discord_id))
-        self.commit()
-    
-    def get_notify(self, discord_id):
-        cursor = self.execute('SELECT notify FROM users WHERE discord_id = ?', (discord_id,))
-        res = cursor.fetchone()
-        return bool(res[0]) if res else None
-    
-    def set_notify(self, discord_id, status):
-        self.execute('UPDATE users SET notify = ? WHERE discord_id = ?', (status, discord_id))
         self.commit()
     
     def get_score(self, discord_id):
@@ -68,10 +59,6 @@ class Database:
 
     def get_all_users(self):
         self.execute('SELECT * FROM users')
-        return self.cursor.fetchall()
-
-    def get_all_users_with_notify(self):
-        self.execute('SELECT * FROM users WHERE notify = 1')
         return self.cursor.fetchall()
 
     def get_columns(self, table):

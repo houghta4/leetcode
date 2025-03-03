@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 import discord
 from discord.ext import commands
 from util.HelpCustom import MyHelpCommand
-from util.helpers import send_with_mention, display_db_table
+from util.helpers import send_with_mention, display_db_table, add_discord_role, remove_discord_role, toggle_discord_role
 from leetcode import check_daily_completion, fetch_daily_problem, fetch_problem_by_difficulty
 
 # get lcb token
@@ -89,65 +89,37 @@ async def leetcode(ctx, leetcode_username: str = None):
         - MUST supply leetcode username on first use
         - subsequent uses of `!leetcode` will toggle the role. 
         - `!leetcode <username>` will update your leetcode username '''
-    msg = ''
+    
     discord_id = ctx.author.id
     discord_username = ctx.author.name
     role_name = 'leetcoder'
     role = discord.utils.get(ctx.guild.roles, name=role_name)
+
     if role is None:
         raise Exception('Could not find `{role_name}`')
-    embed = None
+    
 
     user = db.get_user(discord_id)
+    embed = None
+    msg = ''
+
     if user:
-        print('user is true')
         # existing user
-        _, _, _, _, notify, _ = user
         if leetcode_username:
             # update existing user's username. if user doesn't have role, add it
             db.set_leetcode_username(discord_id, leetcode_username)
             msg += f' Leetcode username updated to `{leetcode_username}`'
             if role not in ctx.author.roles:
-                db.set_notify(discord_id, True)
                 # add role
-                await ctx.author.add_roles(role)
-                embed = discord.Embed(
-                    title="Role added",
-                    description=f"You now have the `{role_name}` role.",
-                    color=role.color
-                )
-            
+                embed = await add_discord_role(ctx, role)
         else:
-            # toggle notify in db and add/remove role
-            print('leetcode_username = False')
-            db.set_notify(discord_id, not bool(notify))
-            if role in ctx.author.roles:
-                # remove the role
-                await ctx.author.remove_roles(role)
-                embed = discord.Embed(
-                    title="Role removed",
-                    description=f"You no longer have the `{role_name}` role.",
-                    color=discord.Color.red()
-                )
-            else:
-                # add role
-                await ctx.author.add_roles(role)
-                embed = discord.Embed(
-                    title="Role added",
-                    description=f"You now have the `{role_name}` role.",
-                    color=role.color
-                )
+            # toggle role
+            embed = await toggle_discord_role(ctx, role)
     else:
         if not leetcode_username:
             await send_with_mention(ctx, f'❌ **Must supply leetcode username on first use**')
             return
-        # add role
-        await ctx.author.add_roles(role)
-        embed = discord.Embed(
-            title="Role added",
-            description=f"You now have the `{role_name}` role.",
-            color=role.color
-        )
+        embed = await add_discord_role(ctx, role)
         db.add_user(discord_id, discord_username, leetcode_username)
         msg += f'Leetcode username set to `{leetcode_username}`'
     
