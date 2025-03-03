@@ -1,6 +1,5 @@
 import discord
 
-
 async def send_with_mention(ctx, msg='', **kwargs):
     '''Helper to mention sender. Coudln't find default discord way to do it'''    
     await ctx.send(f'{ctx.author.mention} {msg}', **kwargs)
@@ -47,6 +46,7 @@ async def remove_discord_role(ctx, role):
     )
 
 async def add_discord_role(ctx, role):
+    # add role
     await ctx.author.add_roles(role)
     return discord.Embed(
         title="Role added",

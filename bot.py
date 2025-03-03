@@ -97,7 +97,6 @@ async def leetcode(ctx, leetcode_username: str = None):
     if role is None:
         raise Exception('Could not find `{role_name}`')
     
-
     user = db.get_user(discord_id)
     embed = None
     msg = ''
@@ -123,5 +122,9 @@ async def leetcode(ctx, leetcode_username: str = None):
         msg += f'Leetcode username set to `{leetcode_username}`'
     
     await send_with_mention(ctx, msg, embed=embed)
+
+#TODO: method to get all users and display their discord username, leetcode username, and score. ping all users with the role
+
+#TODO: set up automated job to send score message weekly and reset scores to 0
 
 bot.run(TOKEN)
