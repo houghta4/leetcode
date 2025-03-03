@@ -82,13 +82,12 @@ async def display_users(ctx):
     msg = display_db_table(db, 'users')
     await send_with_mention(ctx, f'\n{msg}\n')
 
-#TODO: do i even need notify? just use role
 @bot.command()
 async def leetcode(ctx, leetcode_username: str = None):
     ''' Toggle `leetcode` role that will add you to list of participating members. 
         - MUST supply leetcode username on first use
         - subsequent uses of `!leetcode` will toggle the role. 
-        - `!leetcode <username>` will update your leetcode username '''
+        - `!leetcode <username>` will update your leetcode username and add role'''
     
     discord_id = ctx.author.id
     discord_username = ctx.author.name

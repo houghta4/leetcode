@@ -21,20 +21,19 @@ def display_db_table(db, table):
 
     return table_str
 
-async def toggle_discord_role(ctx, role_name):
+async def toggle_discord_role(ctx, role):
     # toggle role
 
-    role = discord.utils.get(ctx.guild.roles, name=role_name)
     if role is None:
         raise Exception('Could not find `{role_name}`')
     
     res = None
     if role in ctx.author.roles:
         # remove the role
-        res = await remove_discord_role(ctx, role_name)
+        res = await remove_discord_role(ctx, role)
     else:
         # add role
-        res = await add_discord_role(ctx, role_name)
+        res = await add_discord_role(ctx, role)
 
     return res
 
